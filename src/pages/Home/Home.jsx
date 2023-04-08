@@ -1,7 +1,7 @@
 import api from '../../api/moviesApi';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { TrendWrap, MovieList } from './Home.styled';
+import { TrendWrap, MovieList, MovieItem } from './Home.styled';
 
 function Home() {
   const [moviesDay, setMoviesDay] = useState([]);
@@ -12,7 +12,6 @@ function Home() {
       setMoviesDay(result.data.results);
     };
     fetchMovies();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -23,7 +22,7 @@ function Home() {
           <MovieList>
             {moviesDay.map(({ title, id, poster_path }) => {
               return (
-                <li key={id}>
+                <MovieItem key={id}>
                   <Link to={`movies/${id}`}>
                     <img
                       src={`https://image.tmdb.org/t/p/w300${poster_path} `}
@@ -31,7 +30,7 @@ function Home() {
                     />
                     <p>{title}</p>
                   </Link>
-                </li>
+                </MovieItem>
               );
             })}
           </MovieList>

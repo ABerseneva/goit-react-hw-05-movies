@@ -10,7 +10,6 @@ export default function Cast() {
     const fetchCast = async () => {
       const result = await api.getMoviesCast(movieId);
       setCast(result.data.cast);
-      // console.log(result.data.cast);
     };
     fetchCast(movieId);
     // eslint-disable-next-line react-hooks/exhaustive-deps

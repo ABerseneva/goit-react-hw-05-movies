@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
   useLocation,
   Link,
@@ -12,24 +12,22 @@ export default function MovieDetails() {
   const { movieId } = useParams();
   const [movie, setMovie] = useState([]);
   const location = useLocation();
-  const goBackBtn = location.state?.from ?? '/';
+  const backLinkLocationRef = useRef(location.state?.from ?? '/movies');
 
   useEffect(() => {
     const fetchMovie = async () => {
       const result = await api.getMoviesDetails(movieId);
       setMovie(result.data);
-      // console.log(result.data);
     };
     if (movieId) {
       fetchMovie();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [movieId]);
 
   return (
     <div>
       <button type="button" className="button">
-        <Link to={goBackBtn}>Go Back</Link>
+        <Link to={backLinkLocationRef.current}>Go Back</Link>
       </button>
       <div>
         <img
@@ -66,8 +64,12 @@ export default function MovieDetails() {
       </div>
       <h2>Aditional information</h2>
       <div>
-        <NavLink to={`/movies/${movieId}/cast`}>Cast</NavLink>
-        <NavLink to={`/movies/${movieId}/reviews`}>Review</NavLink>
+        <NavLink to={`cast`} state={{ from: location }}>
+          Cast
+        </NavLink>
+        <NavLink to={`reviews`} state={{ from: location }}>
+          Review
+        </NavLink>
       </div>
       <Outlet />
     </div>

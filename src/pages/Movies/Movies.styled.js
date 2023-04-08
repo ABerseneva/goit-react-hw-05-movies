@@ -1,23 +1,14 @@
-// import styled from 'styled-components';
+import styled from 'styled-components';
 
-// export const Button = styled.button`
-//   padding: 10px 20px;
-//   width: 120px;
-//   margin: 10px;
-//   background-color: #555555;
-//   border: none;
-//   color: white;
-//   text-align: center;
-//   text-decoration: none;
-//   display: inline-block;
-//   font-size: 20px;
-//   cursor: pointer;
-//   -webkit-transition-duration: 0.4s;
-//   transition-duration: 0.4s;
-//   :hover {
-//     background-color: #a1a1a1;
-//     color: white;
-//     box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
-//       0 17px 50px 0 rgba(0, 0, 0, 0.19);
-//   }
-// `;
+export const MovieList = styled.ul`
+  list-style: none;
+  display: grid;
+  max-width: calc(100vw - 48px);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-gap: 16px;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+  margin-left: auto;
+  margin-right: auto;
+`;

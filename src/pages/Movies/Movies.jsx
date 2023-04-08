@@ -1,34 +1,27 @@
 import { useEffect, useState } from 'react';
-import { NavLink, useSearchParams } from 'react-router-dom';
+import { NavLink, useSearchParams, useLocation } from 'react-router-dom';
 import api from '../../api/moviesApi';
+import { MovieList } from './Movies.styled';
 
 export default function Movies() {
-  const [query, setQuery] = useState('');
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams('');
   const [movies, setMovies] = useState([]);
+  const location = useLocation();
+  const query = searchParams.get('query');
 
   useEffect(() => {
     const fetchMovieByQuery = async () => {
       const result = await api.getMoviesQuery(query);
       setMovies(result.data.results);
-      // console.log(result.data.results);
     };
-    fetchMovieByQuery();
-    // eslint-disable-next-line
+    if (query) {
+      fetchMovieByQuery();
+    }
   }, [query]);
-
-  useEffect(() => {
-    const fetchMovies = async () => {
-      const result = await api.getMoviesDay();
-      setMovies(result.data.results);
-    };
-    fetchMovies();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleSubmit = event => {
     event.preventDefault();
-    setQuery(event.target.searchfield.value);
+
     setSearchParams({ query: event.target.searchfield.value });
     event.target.reset();
   };
@@ -48,11 +41,11 @@ export default function Movies() {
           </button>
         </form>
       </div>
-      <ul>
+      <MovieList>
         {movies.map(({ title, id, poster_path }) => {
           return (
             <li key={id}>
-              <NavLink to={`${id}`} state={{ from: `/movies?${searchParams}` }}>
+              <NavLink to={`${id}`} state={{ from: location }}>
                 <img
                   src={
                     poster_path
@@ -66,7 +59,7 @@ export default function Movies() {
             </li>
           );
         })}
-      </ul>
+      </MovieList>
     </div>
   );
 }
